@@ -61,7 +61,7 @@ app.use((req, res, next) => {
 // Auth Middleware
 app.use((req, res, next) => {
   const publicPaths = ['/login', '/register']; // หน้าที่ไม่ต้องล็อกอิน
-  if (!req.user.id && !publicPaths.includes(req.path)) {
+  if (!req.user && !publicPaths.includes(req.path)) {
     return res.redirect('/login');
   }
   next();
@@ -80,7 +80,7 @@ function requireAuth(...roles) {
 
 // Home - Redirect based on auth status
 app.get('/', (req, res) => {
-  if (req.user.id) {
+  if (req.user) {
     if (req.user.role === 'admin') {
       return res.redirect('/admin/dashboard');
     }
@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
 
 // Login Page
 app.get('/login', (req, res) => {
-  if (req.user.id) {
+  if (req.user) {
     return res.redirect('/');
   }
   res.render('login', { error: null });
@@ -102,13 +102,19 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   
   try {
-    const {result} = await pool.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [username]);
+    const {rows} = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
     
-    if (result.length === 0) {
+    if (rows.length === 0) {
       return res.render('login', { error: 'Invalid username or password' });
     }    
 
-    const u = result[0];
+    const validPassword = await bcrypt.compare(password, rows.password);
+    
+    if (!validPassword) {
+      return res.render('login', { error: 'Invalid username or password' });
+    }
+
+    const u = rows[0];
     req.session.user = {
       id: u.id,
       username: u.username,
@@ -128,7 +134,7 @@ app.post('/login', async (req, res) => {
 
 // Register Page
 app.get('/register', (req, res) => {
-  if (req.user.id) {
+  if (req.user) {
     return res.redirect('/');
   }
   res.render('register', { error: null });
