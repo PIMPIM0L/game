@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/admin/dashboard">🏠 Dashboard</a>
+        <a href="/admin/reports">📈 Reports</a>
+        <a href="/admin/questions">❓ Questions</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+    
+  <h1>📈 Player Reports</h1>
+  
+  <% if (reports.length === 0) { %>
+    <div style="text-align: center; padding: 50px; background: #f8f9ff; border-radius: 15px;">
+      <p style="font-size: 1.2em; color: #666;">
+        ยังไม่มีข้อมูลการเล่น
+      </p>
+    </div>
+  <% } else { %>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Score</th>
+            <th>Time Used</th>
+            <th>Played At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reports.forEach(report => { %>
+            <tr>
+              <td><strong><%= report.username %></strong></td>
+              <td><%= report.score %></td>
+              <td><%= report.time_used %></td>
+              <td><%= new Date(report.played_at).toLocaleString('th-TH') %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>   
+</body>
+</html>

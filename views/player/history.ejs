@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History - Guess Emoji Game</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+ <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/player/dashboard">🏠 Home</a>
+        <a href="/player/game">🎮 Play</a>
+        <a href="/player/history">📊 History</a>
+        <a href="/player/settings">⚙️ Settings</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container dashboard-container">
+    
+    <h1>📊 History</h1>
+    
+    <% if (history.length === 0) { %>
+      <div style="text-align: center; padding: 50px; background: #f8f9ff; border-radius: 15px;">
+        <p style="font-size: 1.2em; color: #666;">
+          ยังไม่มีประวัติการเล่น<br>
+          <a href="/player/game" style="color: #667eea;">เริ่มเล่นเกมเลย!</a>
+        </p>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Score</th>
+              <th>Time</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% history.forEach((record, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= record.score %></td>
+                <td><%= record.time_used %></td>
+                <td><%= new Date(record.played_at).toLocaleString('th-TH') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

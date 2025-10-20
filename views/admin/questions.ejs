@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Questions - Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/admin/dashboard">🏠 Dashboard</a>
+        <a href="/admin/reports">📈 Reports</a>
+        <a href="/admin/questions">❓ Questions</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <h1>❓ Manage Questions</h1>
+
+  <% if (success) { %>
+    <div class="success"><%= success %></div>
+  <% } %>
+
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <!-- Add Question Form -->
+  <div class="add-question-form">
+    <h2 style="margin-bottom: 20px;">Add New Question</h2>
+    <form action="/admin/questions/add" method="POST" autocomplete="off">
+      <div class="form-row">
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="emojis" 
+            name="emojis" 
+            placeholder="Emojis" 
+            required>
+        </div>
+
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="answer" 
+            name="answer" 
+            placeholder="Answer" 
+            required>
+        </div>
+      </div>
+      <button type="submit" class="btn-add">➕ Add Question</button>
+    </form>
+  </div>
+
+  <!-- Questions List -->
+  <h2 style="margin: 40px 0 20px 0;">All Questions (<%= questions.length %>)</h2>
+
+  <% if (questions.length === 0) { %>
+    <div style="text-align: center; padding: 50px; background: #f8f9ff; border-radius: 15px;">
+      <p style="font-size: 1.2em; color: #666;">
+        ยังไม่มีคำถาม กรุณาเพิ่มคำถามใหม่
+      </p>
+    </div>
+  <% } else { %>
+    <% questions.forEach(question => { %>
+      <div class="question-item">
+        <div class="question-content">
+          <div class="question-emojis"><%= question.emojis %></div>
+          <div class="question-answer">คำตอบ: <%= question.answer %></div>
+          <small style="color: #999;">ID: <%= question.id %></small>
+        </div>
+
+        <div class="question-actions">
+          <!-- Edit button -->
+          <button 
+            class="edit-btn"
+            style="background: #6c63ff; color: white; cursor: pointer;"
+            onclick="openEditModal(<%= question.id %>, '<%= question.emojis %>', '<%= question.answer %>')">
+            ✏️ Edit
+          </button>
+
+          <!-- ✅ Delete button (fixed POST form) -->
+          <form 
+            action="/admin/questions/delete/<%= question.id %>" 
+            method="POST" 
+            class="delete-form"
+            onsubmit="return confirmDelete(event)">
+            <button 
+              class="delete-btn"
+              style="background:#e74c3c; color:white; cursor:pointer;">
+              🗑️ Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2>✏️ แก้ไขคำถาม</h2>
+      <form id="editForm" method="POST">
+        <div class="form-group">
+          <label for="edit-emojis">Emojis</label>
+          <input type="text" id="edit-emojis" name="emojis" required>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-answer">Answer</label>
+          <input type="text" id="edit-answer" name="answer" required>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="submit" style="background:#6c63ff; color:white;">💾 Save</button>
+          <button type="button" onclick="closeModal()">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // เปิด modal สำหรับแก้ไข
+    function openEditModal(id, emojis, answer) {
+      const modal = document.getElementById('editModal');
+      modal.style.display = 'block';
+      document.getElementById('editForm').action = `/admin/questions/edit/${id}`;
+      document.getElementById('edit-emojis').value = emojis;
+      document.getElementById('edit-answer').value = answer;
+    }
+
+    // ปิด modal
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    // ปิด modal เมื่อคลิกนอกกรอบ
+    window.onclick = function(e) {
+      const modal = document.getElementById('editModal');
+      if (e.target === modal) closeModal();
+    }
+
+    // ป้องกัน double delete / reload หลัง POST
+    function confirmDelete(e) {
+      const confirmDelete = confirm('คุณแน่ใจหรือไม่ว่าต้องการลบคำถามนี้?');
+      if (!confirmDelete) {
+        e.preventDefault();
+        return false;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Game - Guess Emoji</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/player/dashboard">🏠 Home</a>
+        <a href="/player/game">🎮 Play</a>
+        <a href="/player/history">📊 History</a>
+        <a href="/player/settings">⚙️ Settings</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+ <div class="container dashboard-container">
+    
+    <div class="game-container">
+      <h1>🎮 Guess Emoji</h1>
+      
+      <div id="start-area">
+        <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
+          พร้อมแล้วหรือยัง? คุณจะมีเวลา 1 นาทีในการทายอีโมจิให้ได้มากที่สุด!
+        </p>
+        <button id="start-btn" style="max-width: 300px; margin: 0 auto;">
+          🚀 เริ่มเกม
+        </button>
+      </div>
+      
+      <div id="game-area" style="display: none;">
+        <div class="timer" id="timer">1:00</div>
+        
+        <div class="score-display" id="score-display">คะแนน: 0</div>
+        
+        <div class="emoji-display" id="emoji-display">
+          🎯
+        </div>
+        
+        <div class="answer-input">
+          <input 
+            type="text" 
+            id="answer-input" 
+            placeholder="พิมพ์คำตอบของคุณ..." 
+            autocomplete="off"
+          >
+        </div>
+        
+        <div class="game-buttons">
+          <button id="submit-btn">✅ ส่งคำตอบ</button>
+          <button id="skip-btn" class="skip-btn">⏭️ ข้าม</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="/js/game.js"></script>
+</body>
+</html>

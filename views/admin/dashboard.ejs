@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Guess Emoji Game</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/admin/dashboard">🏠 Dashboard</a>
+        <a href="/admin/reports">📈 Reports</a>
+        <a href="/admin/questions">❓ Questions</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container dashboard-container">
+    <h1>👋 Welcome, <%= username %></h1>
+    <p style="text-align:center;color:#666;">ยินดีต้อนรับสู่เกมทายอีโมจิ!</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>👥 Total Players</h3>
+        <div class="number"><%= stats.players %></div>
+      </div>
+      <div class="stat-card">
+        <h3>🎮 Total Games</h3>
+        <div class="number"><%= stats.games %></div>
+      </div>
+      <div class="stat-card">
+        <h3>❓ Total Questions</h3>
+        <div class="number"><%= stats.questions %></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center;">
+      <h2>Quick Actions</h2>
+      <div class="action-buttons">
+        <a href="/admin/reports">
+          <button style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">📈 View Reports</button>
+        </a>
+        <a href="/admin/questions">
+          <button style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">❓ Manage Questions</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

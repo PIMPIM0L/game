@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Dashboard - Guess Emoji Game</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">🎯 Emoji Game</div>
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/player/dashboard">🏠 Home</a>
+        <a href="/player/game">🎮 Play</a>
+        <a href="/player/history">📊 History</a>
+        <a href="/player/settings">⚙️ Settings</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+
+   <div class="container dashboard-container">
+  
+    <div class="welcome-section">
+      <h2>Hi! <%= username %> 👋</h2>
+      <p>ยินดีต้อนรับสู่เกมทายอีโมจิ</p>
+      
+      <div class="action-buttons">
+        <a href="/player/game">
+          <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            🎮 เริ่มเล่นเกม
+          </button>
+        </a>
+        <a href="/player/history">
+          <button style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            📊 ดูประวัติการเล่น
+          </button>
+        </a>
+      </div>
+      
+      <div style="margin-top: 50px; padding: 30px; background: #f8f9ff; border-radius: 15px;">
+        <h3 style="color: #667eea; margin-bottom: 20px;">📖 วิธีเล่น</h3>
+        <p style="text-align: left; color: #666; line-height: 1.8;">
+          1. กดปุ่ม "เริ่มเล่นเกม" เพื่อเริ่มเกม<br>
+          2. ดูอีโมจิที่แสดงและพิมพ์คำตอบที่คิดว่าถูกต้อง<br>
+          3. คุณมีเวลา 1 นาทีในการตอบคำถามให้ได้มากที่สุด<br>
+          4. กด "ส่งคำตอบ" เพื่อตรวจสอบ หรือ "ข้าม" เพื่อข้ามคำถาม<br>
+          5. เมื่อหมดเวลา ระบบจะบันทึกคะแนนของคุณอัตโนมัติ
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
