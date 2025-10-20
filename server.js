@@ -102,13 +102,13 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   
   try {
-    const {result} = await pool.query('SELECT * FROM users WHERE username = $1 AND password = crypt($2, password) LIMIT 1', [username, password]);
+    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1 AND password = crypt($2, password) LIMIT 1', [username, password]);
     
-    if (result.length === 0) {
+    if (rows.length === 0) {
       return res.render('login', { error: 'Invalid username or password' });
     }
 
-    const u = result[0];
+    const u = rows[0];
     req.session.user = {
       id: u.id,
       username: u.username,
@@ -139,9 +139,9 @@ app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
   
   try {
-    const userExists = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $2', [username, email]);
+    const rows = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $2', [username, email]);
     
-    if (userExists.rows.length > 0) {
+    if (rows.length === 0) {
       return res.render('register', { error: 'Username or email already exists' });
     }
 
