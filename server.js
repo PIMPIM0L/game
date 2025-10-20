@@ -102,19 +102,13 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   
   try {
-    const {rows} = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    const {result} = await pool.query('SELECT * FROM users WHERE username = $1 AND password = crypt($2, password) LIMIT 1', [username, password]);
     
-    if (rows.length === 0) {
-      return res.render('login', { error: 'Invalid username or password' });
-    }    
-
-    const validPassword = await bcrypt.compare(password, rows.password);
-    
-    if (!validPassword) {
+    if (result.length === 0) {
       return res.render('login', { error: 'Invalid username or password' });
     }
 
-    const u = rows[0];
+    const u = result[0];
     req.session.user = {
       id: u.id,
       username: u.username,
@@ -150,13 +144,10 @@ app.post('/register', async (req, res) => {
     if (userExists.rows.length > 0) {
       return res.render('register', { error: 'Username or email already exists' });
     }
+
+    const q = `INSERT INTO users (username, email, password, role) VALUES ($1, $2, crypt($3, gen_salt('bf')), $4)`;
     
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    await pool.query(
-      'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)',
-      [username, email, hashedPassword, 'player']
-    );
+    await pool.query(q, [username, email, password, 'player']);
     
     res.redirect('/login');
   } catch (err) {
