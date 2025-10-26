@@ -17,6 +17,8 @@ const gameArea = document.getElementById('game-area');
 const startArea = document.getElementById('start-area');
 
 // Start Game
+window.addEventListener('DOMContentLoaded', startGame);
+
 if (startBtn) {
   startBtn.addEventListener('click', startGame);
 }

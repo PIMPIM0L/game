@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>History - Guess Emoji Game</title>
   <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
  <header class="navbar">
-    <div class="logo">🎯 Emoji Game</div>
+    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
-        <a href="/player/dashboard">🏠 Home</a>
         <a href="/player/game">🎮 Play</a>
         <a href="/player/history">📊 History</a>
         <a href="/player/settings">⚙️ Settings</a>
@@ -54,8 +54,15 @@
             <% }) %>
           </tbody>
         </table>
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="/player/game" > 
+            <button style="max-width: 300px; margin: 0 auto;"> เล่นเกมอีกครั้ง </button>
+          </a>
+        </div>
       </div>
     <% } %>
   </div>
+
+  <script src="/js/game.js"></script>
 </body>
 </html>

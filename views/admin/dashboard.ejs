@@ -9,11 +9,10 @@
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">🎯 Emoji Game</div>
+    <div class="logo"><a href="/admin/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
-        <a href="/admin/dashboard">🏠 Dashboard</a>
         <a href="/admin/reports">📈 Reports</a>
         <a href="/admin/questions">❓ Questions</a>
         <a href="/logout">🚪 Sign out</a>
@@ -21,7 +20,7 @@
     </div>
   </header>
 
-  <div class="container dashboard-container">
+  <div class="container dashboard-container admin-dashboard-container">
     <h1>👋 Welcome, <%= username %></h1>
     <p style="text-align:center;color:#666;">ยินดีต้อนรับสู่เกมทายอีโมจิ!</p>
 
