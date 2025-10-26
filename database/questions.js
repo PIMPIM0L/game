@@ -31,7 +31,7 @@ export function saveQuestions(questions) {
 }
 
 // ดึงคำถามแบบสุ่ม (จำนวนกำหนดได้)
-export function getRandomQuestions(count = 10) {
+export function getRandomQuestions(count = 15) {
   const questions = loadQuestions();
   const shuffled = [...questions].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);

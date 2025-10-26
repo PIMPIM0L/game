@@ -1,7 +1,7 @@
 let questions = [];
 let currentQuestionIndex = 0;
 let score = 0;
-let timeRemaining = 60;
+let timeRemaining = 90;
 let timerInterval;
 let gameStartTime;
 let gameActive = false;
@@ -35,7 +35,7 @@ async function startGame() {
 
     currentQuestionIndex = 0;
     score = 0;
-    timeRemaining = 60;
+    timeRemaining = 90;
     gameActive = true;
     gameStartTime = Date.now();
 
