@@ -9,7 +9,7 @@
 </head>
 <body>
  <header class="navbar">
-    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
+    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -23,16 +23,6 @@
  <div class="container dashboard-container">
     
     <div class="game-container">
-      <h1>🎮 Guess Emoji</h1>
-      
-      <div id="start-area">
-        <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
-          พร้อมแล้วหรือยัง? คุณจะมีเวลา 1 นาทีในการทายอีโมจิให้ได้มากที่สุด!
-        </p>
-        <button id="start-btn" style="max-width: 300px; margin: 0 auto;">
-          🚀 เริ่มเกม
-        </button>
-      </div>
       
       <div id="game-area" style="display: none;">
         <div class="timer" id="timer">1:00</div>
@@ -40,21 +30,23 @@
         <div class="score-display" id="score-display">คะแนน: 0</div>
         
         <div class="emoji-display" id="emoji-display">
-          🎯
+          
         </div>
         
-        <div class="answer-input">
+        <div class="answer-input" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
           <input 
             type="text" 
             id="answer-input" 
             placeholder="พิมพ์คำตอบของคุณ..." 
             autocomplete="off"
           >
+          <p type="button" id="hint-btn" title="ดูคำใบ้" style="font-size: 2em; cursor: pointer; padding: 4px 7px; width: 8%" >💡</p>
         </div>
-        
+
+        <div id="hint-display" style="color: #999; font-style: italic; display: none;"></div>
         <div class="game-buttons">
-          <button id="submit-btn">✅ ส่งคำตอบ</button>
-          <button id="skip-btn" class="skip-btn">⏭️ ข้าม</button>
+          <button type="button" id="submit-btn">ส่งคำตอบ</button>
+          <button type="button" id="skip-btn" class="skip-btn">ข้าม</button>
         </div>
       </div>
     </div>

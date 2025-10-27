@@ -174,10 +174,16 @@ app.get('/player/game', requireAuth("player"), (req, res) => {
   res.render('player/game', { username: req.user.username });
 });
 
+// เพื่อให้ทุกการเรียก /api/questions ดึงข้อมูลใหม่ทุกครั้ง
+app.use('/api/questions', (req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+
 // Get Random Questions API
 app.get('/api/questions', requireAuth("player"), (req, res) => {
   try {
-    const questions = getRandomQuestions(10);
+    const questions = getRandomQuestions(15);
     res.json(questions);
   } catch (err) {
     console.error(err);
@@ -205,7 +211,7 @@ app.post('/api/game/save', requireAuth("player"), async (req, res) => {
 app.get('/player/history', requireAuth("player"), async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM game_history WHERE user_id = $1 ORDER BY played_at DESC',
+      'SELECT * FROM game_history WHERE user_id = $1 ORDER BY played_at DESC LIMIT 10',
       [req.user.id]
     );
     res.render('player/history', { 
@@ -237,31 +243,33 @@ app.get('/player/settings', requireAuth("player"), async (req, res) => {
   }
 });
 
-// Update Player Settings
+// Update Player Settings (ignore email field)
 app.post('/player/settings', requireAuth("player"), async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body; // ไม่รับ email จาก form
   
   try {
-    const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
-    
-    if (password) {
+    // ดึงอีเมลจริงจากฐานข้อมูล
+    const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
+    const currentEmail = userResult.rows[0].email;
+
+    if (password && password.trim() !== '') {
       const hashedPassword = await bcrypt.hash(password, 10);
       await pool.query(
-        'UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4',
-        [username, email, hashedPassword, req.user.id]
+        'UPDATE users SET username = $1, password = $2 WHERE id = $3',
+        [username, hashedPassword, req.user.id]
       );
     } else {
       await pool.query(
-        'UPDATE users SET username = $1, email = $2 WHERE id = $3',
-        [username, email, req.user.id]
+        'UPDATE users SET username = $1 WHERE id = $2',
+        [username, req.user.id]
       );
     }
-    
+
     req.user.username = username;
-    
+
     res.render('player/settings', { 
-      username: username,
-      user: { username, email },
+      username,
+      user: { username, email: currentEmail }, 
       success: 'Settings updated successfully!',
       error: null
     });
@@ -354,14 +362,14 @@ app.get('/admin/questions/add', requireAuth("admin"), (req, res) => {
 
 // เพิ่มคำถามใหม่
 app.post('/admin/questions/add', requireAuth("admin"), (req, res) => {
-  const { emojis, answer } = req.body;
+  const { emojis, answer, hint } = req.body;
   try {
     const questions = loadQuestions();
     const newId = questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1;
-    questions.push({ id: newId, emojis, answer });
+    questions.push({ id: newId, emojis, answer, hint});
     saveQuestions(questions);
     res.redirect('/admin/questions?success=เพิ่มคำถามใหม่เรียบร้อยแล้ว');
-    // res.render('/admin/questions' );
+
   } catch (err) {
     console.error(err);
     res.redirect('/admin/questions?error=ไม่สามารถเพิ่มคำถามได้');
@@ -371,7 +379,7 @@ app.post('/admin/questions/add', requireAuth("admin"), (req, res) => {
 // แก้ไขคำถาม
 app.post('/admin/questions/edit/:id', requireAuth("admin"), (req, res) => {
   const { id } = req.params;
-  const { emojis, answer } = req.body;
+  const { emojis, answer, hint } = req.body;
 
   try {
     const questions = loadQuestions();
@@ -382,6 +390,7 @@ app.post('/admin/questions/edit/:id', requireAuth("admin"), (req, res) => {
 
     questions[index].emojis = emojis;
     questions[index].answer = answer;
+    questions[index].hint = hint;
     saveQuestions(questions);
     res.redirect('/admin/questions?success=แก้ไขคำถามเรียบร้อยแล้ว');
   } catch (err) {

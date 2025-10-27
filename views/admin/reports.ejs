@@ -8,7 +8,7 @@
 </head>
 <body>
   <header class="navbar">
-    <div class="logo"><a href="/admin/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
+    <div class="logo"><a href="/admin/dashboard" style="text-decoration: none;" >Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -18,7 +18,8 @@
       </div>
     </div>
   </header>
-    
+
+  <div class="container">
   <h1>📈 Player Reports</h1>
   
   <% if (reports.length === 0) { %>
@@ -28,6 +29,7 @@
       </p>
     </div>
   <% } else { %>
+    
     <div class="table-container">
       <table>
         <thead>
@@ -49,6 +51,7 @@
           <% }) %>
         </tbody>
       </table>
+    </div>
     </div>
   <% } %>   
 </body>

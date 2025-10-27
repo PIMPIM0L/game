@@ -51,8 +51,18 @@
             placeholder="Answer" 
             required>
         </div>
+
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="hint" 
+            name="hint" 
+            placeholder="Hint" 
+            required>
+        </div>
+
       </div>
-      <button type="submit" class="btn-add">➕ Add Question</button>
+      <button type="submit" class="btn-add">Add Question</button>
     </form>
   </div>
 
@@ -71,6 +81,7 @@
         <div class="question-content">
           <div class="question-emojis"><%= question.emojis %></div>
           <div class="question-answer">คำตอบ: <%= question.answer %></div>
+          <div class="question-answer">คำใบ้: <%= question.hint %></div>
           <small style="color: #999;">ID: <%= question.id %></small>
         </div>
 
@@ -79,7 +90,7 @@
           <button 
             class="edit-btn"
             style="background: #6c63ff; color: white; cursor: pointer;"
-            onclick="openEditModal(<%= question.id %>, '<%= question.emojis %>', '<%= question.answer %>')">
+            onclick="openEditModal(<%= question.id %>, '<%= question.emojis %>', '<%= question.answer %>', '<%= question.hint %>')">
             ✏️ Edit
           </button>
 
@@ -115,6 +126,12 @@
           <input type="text" id="edit-answer" name="answer" required>
         </div>
 
+        <div class="form-group">
+          <label for="edit-hint">Hint</label>
+          <input type="text" id="edit-hint" name="hint">
+        </div>
+
+
         <div class="modal-buttons">
           <button type="submit" style="background:#6c63ff; color:white;">💾 Save</button>
           <button type="button" onclick="closeModal()">❌ Cancel</button>
@@ -125,12 +142,13 @@
 
   <script>
     // เปิด modal สำหรับแก้ไข
-    function openEditModal(id, emojis, answer) {
+    function openEditModal(id, emojis, answer, hint) {
       const modal = document.getElementById('editModal');
       modal.style.display = 'block';
       document.getElementById('editForm').action = `/admin/questions/edit/${id}`;
       document.getElementById('edit-emojis').value = emojis;
       document.getElementById('edit-answer').value = answer;
+      document.getElementById('edit-hint').value = hint;
     }
 
     // ปิด modal

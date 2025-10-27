@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ ชี้ไปที่ไฟล์ questions.json ที่อยู่นอกโฟลเดอร์ database
+// ชี้ไปที่ไฟล์ questions.json ที่อยู่นอกโฟลเดอร์ database
 const jsonPath = path.resolve(__dirname, 'questions.json');
 
 // โหลดคำถามทั้งหมดจากไฟล์ JSON
@@ -31,7 +31,7 @@ export function saveQuestions(questions) {
 }
 
 // ดึงคำถามแบบสุ่ม (จำนวนกำหนดได้)
-export function getRandomQuestions(count = 15) {
+export function getRandomQuestions(count = 30) {
   const questions = loadQuestions();
   const shuffled = [...questions].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);

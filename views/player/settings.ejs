@@ -8,7 +8,7 @@
 </head>
 <body>
  <header class="navbar">
-    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
+    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -22,7 +22,7 @@
 
   <div class="container dashboard-container">
     
-    <h1>⚙️ Account Settings</h1>
+    <h1>Account Settings</h1>
     
     <div style="max-width: 600px; margin: 0 auto;">
       <% if (success) { %>
@@ -47,14 +47,15 @@
         
         <div class="form-group">
           <label for="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            value="<%= user.email %>" 
-            required
-          >
-        </div>
+            <input 
+              type="email" 
+              id="email" 
+              value="<%= user.email %>" 
+              readonly
+              style="background:#f4f4f4; color:#777; cursor:not-allowed;"
+            >
+          </div>
+
         
         <div class="form-group">
           <label for="password">New Password (ว่างไว้ถ้าไม่ต้องการเปลี่ยน)</label>

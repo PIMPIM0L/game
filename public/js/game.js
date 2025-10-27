@@ -12,26 +12,22 @@ const scoreDisplay = document.getElementById('score-display');
 const answerInput = document.getElementById('answer-input');
 const submitBtn = document.getElementById('submit-btn');
 const skipBtn = document.getElementById('skip-btn');
-const startBtn = document.getElementById('start-btn');
 const gameArea = document.getElementById('game-area');
-const startArea = document.getElementById('start-area');
+const hintDisplay = document.getElementById('hint-display');
+const hintBtn = document.getElementById('hint-btn');
 
 // Start Game
 window.addEventListener('DOMContentLoaded', startGame);
 
-if (startBtn) {
-  startBtn.addEventListener('click', startGame);
-}
-
 async function startGame() {
   try {
-    const response = await axios.get('/api/questions');
+    const response = await axios.get('/api/questions?' + new Date().getTime()); // ป้องกัน cache
     questions = response.data;
-    
     if (questions.length === 0) {
       alert('No questions available!');
       return;
     }
+
 
     currentQuestionIndex = 0;
     score = 0;
@@ -39,20 +35,20 @@ async function startGame() {
     gameActive = true;
     gameStartTime = Date.now();
 
-    startArea.style.display = 'none';
     gameArea.style.display = 'block';
 
     updateScore();
     displayQuestion();
     startTimer();
   } catch (error) {
-    console.error('Error starting game:', error);
-    alert('Failed to start game. Please try again.');
+
   }
 }
 
-
 // Display Question
+
+let hintShown = false; // กันกดซ้ำ
+
 function displayQuestion() {
   if (currentQuestionIndex >= questions.length) {
     endGame();
@@ -63,6 +59,18 @@ function displayQuestion() {
   emojiDisplay.textContent = question.emojis;
   answerInput.value = '';
   answerInput.focus();
+
+  hintDisplay.style.display = 'none';
+  hintDisplay.textContent = question.hint ? `คำใบ้: ${question.hint}` : "(ไม่มีคำใบ้)";
+  hintShown = false;
+}
+if (hintBtn) {
+  hintBtn.addEventListener('click', () => {
+    if (!hintShown) {
+      hintDisplay.style.display = 'block';
+      hintShown = true;
+    }
+  });
 }
 
 // Timer
@@ -85,7 +93,7 @@ function updateTimerDisplay() {
   if (timeRemaining <= 10) {
     timerDisplay.style.color = '#f44336';
   } else {
-    timerDisplay.style.color = '#667eea';
+    timerDisplay.style.color = '#4A4947';
   }
 }
 
@@ -152,7 +160,7 @@ async function endGame() {
     });
 
     alert(`เกมจบแล้ว!\n\nคะแนนของคุณ: ${score} คะแนน\nเวลาที่ใช้: ${timeString}\n\nบันทึกผลเรียบร้อยแล้ว!`);
-    window.location.href = '/player/history';
+    window.location.replace('/player/history');
   } catch (error) {
     console.error('Error saving game:', error);
     alert(`เกมจบแล้ว!\n\nคะแนนของคุณ: ${score} คะแนน\nเวลาที่ใช้: ${timeString}`);
