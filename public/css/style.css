@@ -84,7 +84,7 @@ button {
   width: 100%;
   padding: 14px;
   background: linear-gradient(135deg, #0a0a0a 0%, #6a676e 100%);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 10px;
   font-size: 16px;
@@ -105,11 +105,11 @@ button:active {
 .text-center {
   text-align: center;
   margin-top: 20px;
-  color: #666;
+  color: #5d6385;
 }
 
 .text-center a {
-  color: #4A4947;
+  color: #232d6e;
   text-decoration: none;
   font-weight: 600;
 }
@@ -137,6 +137,9 @@ button:active {
 }
 
 /*  NAVBAR DROPDOWN STYLES  */
+.logo > img {
+  width: 8%;
+}
 
 .navbar {
   position: fixed;
@@ -154,13 +157,13 @@ button:active {
 
 .navbar .logo {
   font-weight: bold;
-  color: #B17457;
-  font-size: 1.2em;
+  color: #3D74B6;
+  font-size: 1.6em;
   
 }
 
 .dropbtn {
-  background: #B17457;
+  background: #5187CB;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -178,7 +181,7 @@ button:active {
   display: none;
   position: absolute;
   right: 0;
-  background-color: #FAF7F0;
+  background-color: #fcfcfc;
   min-width: 200px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   border-radius: 10px;
@@ -186,16 +189,17 @@ button:active {
 }
 
 .dropdown-content a {
-  color: #B17457;
+  color: #3D74B6;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   font-weight: 500;
+  font-size: 1.1em;
 }
 
 .dropdown-content a:hover {
-  background: #B17457;
-  color: white;
+  background: #deeaf9ad;
+  color: #232d6e;
 }
 
 .dropdown:hover .dropdown-content {
@@ -225,33 +229,34 @@ button:active {
 
 .navbar .logo a:link,
 .navbar .logo a:visited {
-  color: #B17457; 
+  color: #38469F; 
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
 }
 
 .navbar .logo a:hover {
-  color: #009E8E;  
+  color: #5187CB;  
 }
 
 /*  GENERAL COMPONENT STYLES  */
-h1, h2 {
-  text-align: center;
-  color: #4A4947;
-  margin-bottom: 30px;
-}
 
 button {
   width: 100%;
   padding: 14px;
-  background: #B17457;
-  color: #FAF7F0;
+  background: #5187CB;
+  color: #ffffff;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#hint-btn {
+  cursor: pointer; 
+  padding: 4px 7px; 
+  width: 7%
 }
 
 button:hover {
@@ -281,8 +286,8 @@ th, td {
 }
 
 th {
-  background: #B17457;
-  color: #FAF7F0;
+  background: #38469F;
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -311,23 +316,37 @@ tr:hover {
 /* Game Styles */
 
 .game-container {
+  display: flex;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
   height: 100%;
   justify-content: center;
   align-items: center;
 }
 
+#game-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .timer {
-  font-size: 3em;
-  color: #4A4947;
-  background: white;
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;  
+  color: #3D74B6 !important;
+  background: rgba(255, 255, 255, 0.559);
   font-weight: bold;
   margin: 20px 0;
   padding: 20px;
   border-radius: 100px;
-  width: 20%;
+  width: 100%;   
+  height: 110px;
 }
+
 
 .emoji-display {
   font-size: 5em;
@@ -340,7 +359,7 @@ tr:hover {
 
 .score-display {
   font-size: 2em;
-  color: #4caf50;
+  color: #748DAE;
   margin: 20px 0;
   font-weight: bold;
 }
@@ -365,15 +384,15 @@ tr:hover {
 .game-buttons button {
   flex: 1;
   min-width: 150px;
-  max-width: 200px;
+  max-width: 250px;
 }
 
 .skip-btn {
-  background: #ff9800;
+  background: #616a80;
 }
 
 .skip-btn:hover {
-  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+  box-shadow: 0 5px 7px #80839c;
 }
 
 /* Admin Styles */
@@ -548,25 +567,19 @@ tr:hover {
   min-width: 200px;
   text-decoration: none;
   display: inline-block;
+  font-size: 20px;
+  color: white;
 }
 
-/* Lock full screen for Login/Register */
-body.login-page, html.login-page {
-  height: 100vh;
-  overflow: hidden;           /* ปิดการเลื่อนแนวตั้ง/แนวนอน */
-  margin: 0;
-  padding: 0;
-  background: white;
-}
 
 /* Lock full screen for Login/Register */
-body.login-page, html.login-page {
+/* body.login-page, html.login-page {
   height: 100vh;
   overflow: hidden;          
   margin: 0;
   padding: 0;
-  background: white;
-}
+  background: #FAF7F0;
+} */
 
 body.login-page {
   display: flex;
@@ -574,34 +587,35 @@ body.login-page {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background: white;
+  background: #FAF7F0;
   overflow: hidden;
 }
 
 /* กล่องล็อกอิน/สมัครสมาชิก */
 .auth-box {
-  border: 2px solid black;
+  border: 2px solid #38469F;
   border-radius: 15px;
   padding: 40px 30px;
   width: 100%;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: #FAF7F0;
+  box-shadow: 0 4px 20px #1c213d;
   text-align: left;
   animation: fadeIn 0.4s ease;
 }
 
 .auth-box h1 {
-  color: #222;
-  border-bottom: 1px solid #B17457;
+  color: #38469F;
+  border-bottom: 1px solid #38469F;
   padding-bottom: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+
 }
 
 .auth-box h2 {
-  color: #333;
+  color: #38469F;
   margin-bottom: 25px;
 }
 
@@ -609,10 +623,11 @@ body.login-page {
   border: 2px solid #ccc;
   border-radius: 25px;
   padding: 10px 15px;
+
 }
 
 .auth-box button {
-  background: black;
+  background: #38469F;
   color: white;
   border-radius: 25px;
   padding: 12px;
@@ -623,7 +638,7 @@ body.login-page {
 }
 
 .auth-box button:hover {
-  background: #333;
+  background: #1e3047;
 }
 
 
@@ -651,6 +666,9 @@ body.login-page {
 
   .timer {
     font-size: 2em;
+    min-width: 100px;
+    min-height: 100px;
+    align-content: center;
   }
 
   .score-display {
@@ -691,6 +709,11 @@ body.login-page {
 
   .question-actions button {
     flex: 1;
+  }
+
+  #hint-btn {
+    padding: 0 0; 
+    width: 7%
   }
 
   .form-row {

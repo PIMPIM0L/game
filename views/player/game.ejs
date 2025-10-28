@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Play Game - Guess Emoji</title>
+  <link rel="icon" href="/img/logo.png"> 
+  <title>Guess Emoji Game</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body>
+<body style="overflow-y: hidden;">
  <header class="navbar">
-    <div class="logo"><a href="/player/dashboard" style="text-decoration: none;" >Emoji Game</a></div>
+    <div class="logo">
+    <img src="/img/logo.png"><a href="/player/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -24,8 +26,8 @@
     
     <div class="game-container">
       
-      <div id="game-area" style="display: none;">
-        <div class="timer" id="timer">1:00</div>
+      <div id="game-area">
+        <div class="timer" id="timer">1:30</div>
         
         <div class="score-display" id="score-display">คะแนน: 0</div>
         
@@ -40,7 +42,8 @@
             placeholder="พิมพ์คำตอบของคุณ..." 
             autocomplete="off"
           >
-          <p type="button" id="hint-btn" title="ดูคำใบ้" style="font-size: 2em; cursor: pointer; padding: 4px 7px; width: 8%" >💡</p>
+          <img src="/img/hint.png" id="hint-btn" title="ดูคำใบ้">
+
         </div>
 
         <div id="hint-display" style="color: #999; font-style: italic; display: none;"></div>

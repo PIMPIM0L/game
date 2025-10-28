@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Questions - Admin Dashboard</title>
+  <link rel="icon" href="/img/logo.png"> 
+  <title>Admin Guess Emoji</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <header class="navbar">
-    <div class="logo"><a href="/admin/dashboard" style="text-decoration: none;" >🎯 Emoji Game</a></div>
+    <div class="logo">
+    <img src="/img/logo.png"><a href="/admin/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -19,7 +21,7 @@
     </div>
   </header>
 
-  <h1>❓ Manage Questions</h1>
+  <h1>Manage Questions</h1>
 
   <% if (success) { %>
     <div class="success"><%= success %></div>
@@ -89,7 +91,7 @@
           <!-- Edit button -->
           <button 
             class="edit-btn"
-            style="background: #6c63ff; color: white; cursor: pointer;"
+            style="background: #68C4C6; color: white; cursor: pointer;"
             onclick="openEditModal(<%= question.id %>, '<%= question.emojis %>', '<%= question.answer %>', '<%= question.hint %>')">
             ✏️ Edit
           </button>
@@ -102,7 +104,7 @@
             onsubmit="return confirmDelete(event)">
             <button 
               class="delete-btn"
-              style="background:#e74c3c; color:white; cursor:pointer;">
+              style="background: #f17668ff; color:white; cursor:pointer;">
               🗑️ Delete
             </button>
           </form>

@@ -15,6 +15,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -242,41 +243,33 @@ app.get('/player/settings', requireAuth("player"), async (req, res) => {
     res.redirect('/player/dashboard');
   }
 });
-
 // Update Player Settings (ignore email field)
 app.post('/player/settings', requireAuth("player"), async (req, res) => {
-  const { username, password } = req.body; // ไม่รับ email จาก form
-  
+  const { username, password } = req.body;
   try {
-    // ดึงอีเมลจริงจากฐานข้อมูล
     const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
     const currentEmail = userResult.rows[0].email;
 
     if (password && password.trim() !== '') {
-      const hashedPassword = await bcrypt.hash(password, 10);
       await pool.query(
-        'UPDATE users SET username = $1, password = $2 WHERE id = $3',
-        [username, hashedPassword, req.user.id]
+        'UPDATE users SET username = $1, password = crypt($2, gen_salt(\'bf\')) WHERE id = $3',
+        [username, password, req.user.id]
       );
     } else {
-      await pool.query(
-        'UPDATE users SET username = $1 WHERE id = $2',
-        [username, req.user.id]
-      );
+      await pool.query('UPDATE users SET username = $1 WHERE id = $2', [username, req.user.id]);
     }
 
     req.user.username = username;
-
-    res.render('player/settings', { 
+    res.render('player/settings', {
       username,
-      user: { username, email: currentEmail }, 
+      user: { username, email: currentEmail },
       success: 'Settings updated successfully!',
       error: null
     });
   } catch (err) {
     console.error(err);
     const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
-    res.render('player/settings', { 
+    res.render('player/settings', {
       username: req.user.username,
       user: userResult.rows[0],
       success: null,

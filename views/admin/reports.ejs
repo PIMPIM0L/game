@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reports - Admin Dashboard</title>
+  <link rel="icon" href="/img/logo.png"> 
+  <title>Admin Guess Emoji</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <header class="navbar">
-    <div class="logo"><a href="/admin/dashboard" style="text-decoration: none;" >Emoji Game</a></div>
+    <div class="logo">
+    <img src="/img/logo.png"><a href="/admin/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a></div>
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
@@ -20,7 +22,7 @@
   </header>
 
   <div class="container">
-  <h1>📈 Player Reports</h1>
+  <h1>Player Reports</h1>
   
   <% if (reports.length === 0) { %>
     <div style="text-align: center; padding: 50px; background: #f8f9ff; border-radius: 15px;">
