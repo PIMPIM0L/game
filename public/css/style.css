@@ -80,19 +80,6 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #0a0a0a 0%, #6a676e 100%);
-  color: rgb(255, 255, 255);
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(29, 29, 30, 0.4);
@@ -240,12 +227,12 @@ button:active {
 }
 
 /*  GENERAL COMPONENT STYLES  */
-
 button {
   width: 100%;
   padding: 14px;
   background: #5187CB;
   color: #ffffff;
+  border: none;
   border-radius: 10px;
   font-size: 18px;
   font-weight: 600;
@@ -463,17 +450,22 @@ tr:hover {
 }
 
 .question-actions button {
-  width: auto;
+  flex: 1;
+  width: 10em;
   padding: 10px 20px;
   font-size: 14px;
 }
 
 .edit-btn {
-  background: #2196f3;
+  background: #68C4C6; 
+  color: white; 
+  cursor: pointer;
 }
 
 .delete-btn {
-  background: #f44336;
+  background: #f17668ff; 
+  color:white; 
+  cursor:pointer;
 }
 
 .add-question-form {
@@ -482,6 +474,10 @@ tr:hover {
   border-radius: 10px;
   margin-bottom: 30px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-question-form h2 {
+  margin-top: 25px;
 }
 
 .form-row {
@@ -571,24 +567,18 @@ tr:hover {
   color: white;
 }
 
-
-/* Lock full screen for Login/Register */
-/* body.login-page, html.login-page {
-  height: 100vh;
-  overflow: hidden;          
-  margin: 0;
-  padding: 0;
-  background: #FAF7F0;
-} */
-
-body.login-page {
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 0;
+  /* margin: 0; */
   background: #FAF7F0;
   overflow: hidden;
+}
+
+.login-page .container {
+  margin: 0;
 }
 
 /* กล่องล็อกอิน/สมัครสมาชิก */
@@ -611,7 +601,6 @@ body.login-page {
   border-bottom: 1px solid #38469F;
   padding-bottom: 8px;
   margin-bottom: 12px;
-
 }
 
 .auth-box h2 {
@@ -641,8 +630,6 @@ body.login-page {
   background: #1e3047;
 }
 
-
-
 /* Responsive Design */
 @media (max-width: 768px) {
 .dropbtn {
@@ -654,7 +641,6 @@ body.login-page {
   .container, .dashboard-container {
     padding: 20px;
   }
-
 
   h1 {
     font-size: 1.5em;
@@ -700,15 +686,6 @@ body.login-page {
   .question-item {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .question-actions {
-    width: 100%;
-    justify-content: stretch;
-  }
-
-  .question-actions button {
-    flex: 1;
   }
 
   #hint-btn {

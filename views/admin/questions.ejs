@@ -8,14 +8,18 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
   <header class="navbar">
     <div class="logo">
-    <img src="/img/logo.png"><a href="/admin/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a></div>
+      <img src="/img/logo.png"><a href="/admin/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a>
+    </div>
+    
     <div class="dropdown">
       <button class="dropbtn">☰ เมนู</button>
       <div class="dropdown-content">
         <a href="/admin/reports">📈 Reports</a>
         <a href="/admin/questions">❓ Questions</a>
+        <a href="/admin/settings">⚙️ Settings</a>
         <a href="/logout">🚪 Sign out</a>
       </div>
     </div>
@@ -33,7 +37,7 @@
 
   <!-- Add Question Form -->
   <div class="add-question-form">
-    <h2 style="margin-bottom: 20px;">Add New Question</h2>
+    <h2>Add New Question</h2>
     <form action="/admin/questions/add" method="POST" autocomplete="off">
       <div class="form-row">
         <div class="form-group">
@@ -91,20 +95,18 @@
           <!-- Edit button -->
           <button 
             class="edit-btn"
-            style="background: #68C4C6; color: white; cursor: pointer;"
             onclick="openEditModal(<%= question.id %>, '<%= question.emojis %>', '<%= question.answer %>', '<%= question.hint %>')">
             ✏️ Edit
           </button>
 
-          <!-- ✅ Delete button (fixed POST form) -->
+          <!-- Delete button (fixed POST form) -->
           <form 
             action="/admin/questions/delete/<%= question.id %>" 
             method="POST" 
             class="delete-form"
             onsubmit="return confirmDelete(event)">
             <button 
-              class="delete-btn"
-              style="background: #f17668ff; color:white; cursor:pointer;">
+              class="delete-btn">
               🗑️ Delete
             </button>
           </form>

@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
-// import pool from './database/db.js';
 import dotenv from 'dotenv';
 import { loadQuestions, saveQuestions, getAllQuestions, getQuestionsCount, getRandomQuestions } 
   from './database/questions.js';
@@ -98,18 +97,22 @@ app.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
+
+
 // Login POST
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  
+
   try {
-    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1 AND password = crypt($2, password) LIMIT 1', [username, password]);
-    
+    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1 LIMIT 1', [username]);
     if (rows.length === 0) {
       return res.render('login', { error: 'Invalid username or password' });
     }
-
     const u = rows[0];
+    const isMatch = await bcrypt.compare(password, u.password);
+    if (!isMatch) {
+      return res.render('login', { error: 'Invalid username or password' });
+    }
     req.session.user = {
       id: u.id,
       username: u.username,
@@ -121,6 +124,7 @@ app.post('/login', async (req, res) => {
     } else {
       res.redirect('/player/dashboard');
     }
+
   } catch (err) {
     console.error(err);
     res.render('login', { error: 'An error occurred' });
@@ -138,19 +142,19 @@ app.get('/register', (req, res) => {
 // Register POST
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-  
+  const saltRounds = 10; 
+
   try {
-    const rows = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $2', [username, email]);
-    
-    if (rows.length === 0) {
+    const checkUser = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $2 LIMIT 1', [username, email]);   
+    if (checkUser.rows.length > 0) {
       return res.render('register', { error: 'Username or email already exists' });
     }
 
-    const q = `INSERT INTO users (username, email, password, role) VALUES ($1, $2, crypt($3, gen_salt('bf')), $4)`;
-    
-    await pool.query(q, [username, email, password, 'player']);
-    
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const q = `INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4)`;
+    await pool.query(q, [username, email, hashedPassword, 'player']);   
     res.redirect('/login');
+
   } catch (err) {
     console.error(err);
     res.render('register', { error: 'An error occurred' });
@@ -243,34 +247,43 @@ app.get('/player/settings', requireAuth("player"), async (req, res) => {
     res.redirect('/player/dashboard');
   }
 });
-// Update Player Settings (ignore email field)
+
+// Update Player Settings
 app.post('/player/settings', requireAuth("player"), async (req, res) => {
   const { username, password } = req.body;
+  
   try {
     const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
     const currentEmail = userResult.rows[0].email;
 
     if (password && password.trim() !== '') {
+      const saltRounds = 10;
+
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       await pool.query(
-        'UPDATE users SET username = $1, password = crypt($2, gen_salt(\'bf\')) WHERE id = $3',
-        [username, password, req.user.id]
+        'UPDATE users SET username = $1, password = $2 WHERE id = $3',
+        [username, hashedPassword, req.user.id] 
       );
     } else {
       await pool.query('UPDATE users SET username = $1 WHERE id = $2', [username, req.user.id]);
     }
 
     req.user.username = username;
+  
     res.render('player/settings', {
-      username,
-      user: { username, email: currentEmail },
+      username: username, 
+      user: { username: username, email: currentEmail }, 
       success: 'Settings updated successfully!',
       error: null
     });
+
   } catch (err) {
     console.error(err);
+    
     const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
     res.render('player/settings', {
-      username: req.user.username,
+      username: req.user.username, 
       user: userResult.rows[0],
       success: null,
       error: 'Failed to update settings'
@@ -348,7 +361,7 @@ app.get('/admin/questions', requireAuth("admin"), (req, res) => {
   }
 });
 
-// หน้าเพิ่มคำถาม (GET)
+// หน้าเพิ่มคำถาม
 app.get('/admin/questions/add', requireAuth("admin"), (req, res) => {
   res.render('admin/question', { username: req.user.username });
 });
@@ -399,17 +412,74 @@ app.post('/admin/questions/delete/:id', requireAuth("admin"), (req, res) => {
     let questions = loadQuestions();
     questions = questions.filter(q => q.id !== parseInt(id));
     saveQuestions(questions);
-    console.log("จุด 1");
-    res.redirect('/admin/questions');
-    // res.render('/admin/questions?success=ลบคำถามเรียบร้อยแล้ว');
+    res.redirect('/admin/questions?success=ลบคำถามเรียบร้อยแล้ว');
   } catch (err) {
     console.error(err);
     res.redirect('/admin/questions?error=ไม่สามารถลบคำถามได้');
   }
 });
 
+// Admin Settings
+app.get('/admin/settings', requireAuth("admin"), async (req, res) => {
+  try {
+    const result = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
+    res.render('admin/settings', { 
+      username: req.user.username,
+      user: result.rows[0],
+      success: null,
+      error: null
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect('/admindashboard');
+  }
+});
+
+// Update Admin Settings
+app.post('/admin/settings', requireAuth("admin"), async (req, res) => {
+  const { username, password } = req.body;
+  
+  try {
+    const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
+    const currentEmail = userResult.rows[0].email;
+
+    if (password && password.trim() !== '') {
+      const saltRounds = 10;
+
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      await pool.query(
+        'UPDATE users SET username = $1, password = $2 WHERE id = $3',
+        [username, hashedPassword, req.user.id] 
+      );
+    } else {
+      await pool.query('UPDATE users SET username = $1 WHERE id = $2', [username, req.user.id]);
+    }
+
+    req.user.username = username;
+  
+    res.render('admin/settings', {
+      username: username, 
+      user: { username: username, email: currentEmail }, 
+      success: 'Settings updated successfully!',
+      error: null
+    });
+
+  } catch (err) {
+    console.error(err);
+    
+    const userResult = await pool.query('SELECT username, email FROM users WHERE id = $1', [req.user.id]);
+    res.render('admin/settings', {
+      username: req.user.username, 
+      user: userResult.rows[0],
+      success: null,
+      error: 'Failed to update settings'
+    });
+  }
+});
+
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/logo.png"> 
+  <title>Guess Emoji Game</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="/img/logo.png"><a href="/admin/dashboard" style="text-decoration: none;" >&nbspGuess Emoji Game</a>
+    </div>
+    
+    <div class="dropdown">
+      <button class="dropbtn">☰ เมนู</button>
+      <div class="dropdown-content">
+        <a href="/admin/reports">📈 Reports</a>
+        <a href="/admin/questions">❓ Questions</a>
+        <a href="/admin/settings">⚙️ Settings</a>
+        <a href="/logout">🚪 Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container dashboard-container">
+    
+    <h1>Account Settings</h1>
+    
+    <div style="max-width: 600px; margin: 0 auto;">
+      <% if (success) { %>
+        <div class="success"><%= success %></div>
+      <% } %>
+      
+      <% if (error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+      
+      <form action="/admin/settings" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            value="<%= user.username %>" 
+            required
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              value="<%= user.email %>" 
+              readonly
+              style="background:#f4f4f4; color:#777; cursor:not-allowed;"
+            >
+          </div>
+
+        
+        <div class="form-group">
+          <label for="password">New Password (ว่างไว้ถ้าไม่ต้องการเปลี่ยน)</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Leave blank to keep current password"
+            minlength="6"
+          >
+        </div>
+        
+        <div style="display: flex; gap: 15px;">
+          <button type="submit" style="flex: 1;">💾 Save</button>
+          <a href="/admin/dashboard" style="flex: 1;">
+            <button type="button" class="cancel-btn" style="width: 100%;">
+              ❌ Cancel
+            </button>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

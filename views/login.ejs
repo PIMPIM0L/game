@@ -29,6 +29,11 @@
         <input type="password" id="password" name="password" required>
       </div>
 
+      <div style="text-align: left; margin-bottom: 15px; display: flex; align-items: center; gap: 5px;">
+        <input type="checkbox" id="showPassword" style="width: auto;">
+        <label for="showPassword" style="margin: 0; font-size: 0.9em;">Show Password</label>
+      </div>
+
       <button type="submit">Login</button>
     </form>
 
@@ -37,6 +42,16 @@
     </div>
   </div>
 </div>
-
+<script>
+  document.getElementById('showPassword').addEventListener('change', function() {
+    const passwordInput = document.getElementById('password');
+    
+    if (this.checked) {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+</script>
 </body>
 </html>
