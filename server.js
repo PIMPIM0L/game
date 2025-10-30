@@ -14,7 +14,6 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -96,8 +95,6 @@ app.get('/login', (req, res) => {
   }
   res.render('login', { error: null });
 });
-
-
 
 // Login POST
 app.post('/login', async (req, res) => {

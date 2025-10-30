@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -49,7 +48,6 @@ h1, h2 {
 
 h1 {
   font-size: 2em;
-  color: #4A4947;
 }
 
 .form-group {
@@ -246,11 +244,6 @@ button {
   width: 7%
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
-
 /*  TABLE & CARD COMPONENTS  */
 .table-container {
   overflow-x: auto;
@@ -333,7 +326,6 @@ tr:hover {
   width: 100%;   
   height: 110px;
 }
-
 
 .emoji-display {
   font-size: 5em;
@@ -580,6 +572,14 @@ tr:hover {
 .login-page .container {
   margin: 0;
 }
+
+#showPassword {
+  width: auto;
+  margin: 0; 
+  font-size: 0.9em;
+  accent-color: rgb(46, 103, 202);
+}
+
 
 /* กล่องล็อกอิน/สมัครสมาชิก */
 .auth-box {

@@ -158,11 +158,8 @@ async function endGame() {
       score: score,
       timeUsed: timeString
     });
-
-    alert(`เกมจบแล้ว!\n\nคะแนนของคุณ: ${score} คะแนน\nเวลาที่ใช้: ${timeString}\n\nบันทึกผลเรียบร้อยแล้ว!`);
     window.location.replace('/player/history');
   } catch (error) {
     console.error('Error saving game:', error);
-    alert(`เกมจบแล้ว!\n\nคะแนนของคุณ: ${score} คะแนน\nเวลาที่ใช้: ${timeString}`);
   }
 }
