@@ -9,7 +9,6 @@ import { loadQuestions, saveQuestions, getAllQuestions, getQuestionsCount, getRa
 import connectPgSimple from "connect-pg-simple";
 import pg from "pg";
 
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
