@@ -118,7 +118,7 @@
   <!-- Edit Modal -->
   <div id="editModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <h2>✏️ แก้ไขคำถาม</h2>
+      <h2>แก้ไขคำถาม</h2>
       <form id="editForm" method="POST">
         <div class="form-group">
           <label for="edit-emojis">Emojis</label>
@@ -137,8 +137,8 @@
 
 
         <div class="modal-buttons">
-          <button type="submit" style="background:#6c63ff; color:white;">💾 Save</button>
-          <button type="button" onclick="closeModal()">❌ Cancel</button>
+          <button type="button" class="delete-btn" onclick="closeModal()">❌ Cancel</button>
+          <button type="submit" class="edit-btn">💾 Save</button>    
         </div>
       </form>
     </div>

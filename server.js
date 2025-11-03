@@ -81,7 +81,7 @@ app.get('/', (req, res) => {
   if (req.user) {
     if (req.user.role === 'admin') {
       return res.redirect('/admin/dashboard');
-    }
+    } 
     return res.redirect('/player/dashboard');
   }
   res.redirect('/login');
@@ -117,7 +117,7 @@ app.post('/login', async (req, res) => {
 
     if (u.role === 'admin') {
       res.redirect('/admin/dashboard');
-    } else {
+    }  else {
       res.redirect('/player/dashboard');
     }
 

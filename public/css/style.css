@@ -504,6 +504,7 @@ tr:hover {
 .modal-content {
   background: white;
   padding: 30px;
+  margin: 10% auto;
   border-radius: 15px;
   max-width: 500px;
   width: 90%;
@@ -564,7 +565,6 @@ tr:hover {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* margin: 0; */
   background: #FAF7F0;
   overflow: hidden;
 }
