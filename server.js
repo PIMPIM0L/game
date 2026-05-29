@@ -312,6 +312,26 @@ app.get('/admin/dashboard', requireAuth("admin"), async (req, res) => {
   }
 });
 
+app.get('/admin/playerList', requireAuth("admin"), async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT username,email
+      FROM users 
+      LIMIT 100    `);
+    
+    res.render('admin/playerList', { 
+      username: req.user.username,
+      reports: result.rows
+    });
+  } catch (err) {
+    console.error(err);
+    res.render('admin/playerList', { 
+      username: req.user.username,
+      reports: []
+    });
+  }
+});
+
 // Admin Reports
 app.get('/admin/reports', requireAuth("admin"), async (req, res) => {
   try {
